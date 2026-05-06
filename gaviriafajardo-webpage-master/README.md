@@ -1,244 +1,167 @@
-# gaviriafajardo
+# Gaviria Fajardo — Sitio Web Corporativo
 
-Wagtail 2.12 + Django 3.1 + Webpack + Postgres 11 + Dokku config (Production Ready)
+Sitio web institucional desarrollado a la medida para una firma jurídica en Colombia. Presenta los servicios legales, el equipo de abogados, y la identidad corporativa (misión, visión, valores) de la firma. Construido como un monolito con Wagtail CMS sobre Django, lo que permite al cliente gestionar todo el contenido de forma autónoma desde un panel de administración.
 
-## Documentation ##
+> 🏢 Proyecto desarrollado por **[EnocDev](https://github.com/enocdev)** como parte de los servicios de desarrollo web a la medida para empresas del sector privado.
 
-### Directory Tree ###
-```
+[![Python](https://img.shields.io/badge/Python-3.x-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![Django](https://img.shields.io/badge/Django-3.1-092E20?logo=django&logoColor=white)](https://www.djangoproject.com/)
+[![Wagtail](https://img.shields.io/badge/Wagtail-2.12-43B1B0?logo=wagtail&logoColor=white)](https://wagtail.org/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-11-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 
-├── main (Main application of the project, use it to add main templates, statics and root routes)
-│   ├── fixtures
-│   │   ├── dev.json (Useful dev fixtures, by default it creates an `admin` user with password `admin`)
-│   │   └── initial.json (Initial fixture loaded on each startup of the project)
-│   ├── migrations
-│   ├── static (Add here the main statics of the app)
-│   ├── templates (Add here the main templates of the app)
-│   ├── admin.py
-│   ├── apps.py
-│   ├── models.py (Main models like City, Config)
-│   ├── tests.py (We hope you will put some tests here :D)
-│   ├── urls.py (Main urls, place the home page here)
-│   └── views.py
-├── assets (js, stylesheets, etc to create bundle using webpack)
-├── media
-├── gaviriafajardo
-│   ├── settings
-│   │   ├── partials
-│   │   │   └── util.py (Useful functions to be used in settings)
-│   │   ├── common.py (Common settings for different environments)
-│   │   ├── development.py (Settings for the development environment)
-│   │   └── production.py (Settings for production)
-│   ├── urls.py
-│   └── wsgi.py
-├── scripts
-│   ├── command-dev.sh (Commands executed after the development containers are ready)
-│   └── wait-for-it.sh (Dev script to wait for the database to be ready before starting the django app)
-├── static
-├── Dockerfile (Instructions to create the project image with docker)
-├── Makefile (Useful commands)
-├── Procfile (Dokku or Heroku file with startup command)
-├── README.md (This file)
-├── app.json (Dokku deployment configuration)
-├── docker-compose.yml (Config to easily deploy the project in development with docker)
-├── manage.py (Utility to run most django commands)
-└── requirements.txt (Python dependencies to be installed)
-```
+---
 
-### How to install the template ###
+## 🎯 Contexto
 
-Clone the repository, and update your origin url: 
-```
-git clone https://github.com/helixsoftco/wagtail-webpack-dokku gaviriafajardo
-cd gaviriafajardo
-```
+La firma necesitaba un sitio web profesional que transmitiera confianza y seriedad, y que pudiera ser actualizado por personal no técnico sin depender de un desarrollador para cada cambio de texto o imagen. Wagtail fue la elección ideal: ofrece un panel de administración intuitivo sobre la robustez de Django, con un sistema de páginas jerárquico que se adapta naturalmente a la estructura de un sitio corporativo.
 
-Merge the addons required by your project (Optional):
-```
-git merge origin/rest
-git merge origin/webpack
-git merge origin/push-notifications
-```
+## ✨ Funcionalidades
 
-Rename your project files and directories:
-```
-make name=gaviriafajardo init
-```
-> Info: Make is required, for mac run `brew install make`
+- ✅ **Páginas de contenido dinámico** — servicios legales, equipo de abogados, misión y visión, editables desde el admin de Wagtail
+- ✅ **Panel de administración** — interfaz amigable para que el cliente gestione contenido sin conocimientos técnicos
+- ✅ **Sistema de páginas jerárquico** — estructura de contenido organizada por secciones con navegación automática
+- ✅ **Assets optimizados con Webpack** — bundling de JS y CSS para carga eficiente en producción
+- ✅ **Despliegue con Dokku** — configuración production-ready con deploy vía `git push`
+- ✅ **Contenedores Docker** — entorno de desarrollo reproducible y consistente
 
-> After this command you can already delete the init command inside the `Makefile` 
+## 🧱 Stack técnico
 
-The command before will remove the `.git` folder, so you will have to initialize it again:
-```
-git init
-git remote add origin <repository-url>
-```
+| Capa | Tecnología |
+|------|-----------|
+| **CMS / Backend** | Wagtail 2.12 · Django 3.1 · Python 3.x |
+| **Base de datos** | PostgreSQL 11 |
+| **Frontend** | Webpack (bundling de assets JS/CSS) |
+| **Contenedores** | Docker · Docker Compose |
+| **Deploy** | Dokku (compatible Heroku) |
 
-### How to run the project ###
-
-The project use docker, so just run:
+## 🏗️ Arquitectura
 
 ```
+├── main/                    # App principal: templates base, statics, rutas raíz
+│   ├── fixtures/            # Datos iniciales (carga automática al iniciar)
+│   ├── static/              # Archivos estáticos principales
+│   ├── templates/           # Templates base del sitio
+│   ├── models.py            # Modelos compartidos (Config, etc.)
+│   └── urls.py              # URLs raíz (home page)
+│
+├── assets/                  # JS y CSS fuente → procesados por Webpack
+│
+├── gaviriafajardo/          # Configuración del proyecto Django
+│   ├── settings/
+│   │   ├── common.py        # Settings compartidos entre entornos
+│   │   ├── development.py   # Settings de desarrollo (DEBUG, etc.)
+│   │   └── production.py    # Settings de producción (seguridad, allowed hosts)
+│   ├── urls.py
+│   └── wsgi.py
+│
+├── scripts/                 # Scripts de soporte (wait-for-it, comandos post-start)
+├── Dockerfile               # Imagen de producción
+├── docker-compose.yml       # Orquestación para desarrollo local
+├── Makefile                 # Comandos de utilidad
+├── Procfile                 # Configuración Dokku/Heroku
+└── requirements.txt         # Dependencias Python
+```
+
+Decisiones de diseño relevantes:
+
+- **Wagtail como CMS** en lugar de WordPress o un SPA + headless CMS: el cliente necesitaba autonomía para editar contenido sin soporte técnico. Wagtail ofrece un admin superior al de Django y un modelo de páginas jerárquico que se ajusta naturalmente a sitios corporativos.
+- **Monolito** en lugar de microservicios: para un sitio institucional, la simplicidad de un monolito reduce costos de infraestructura y mantenimiento. Un solo proceso sirve el CMS, el frontend y el admin.
+- **Settings por entorno** (`development.py` / `production.py`): separación clara que evita errores de configuración al desplegar. Cada entorno hereda de `common.py` y sobrescribe lo necesario.
+- **Webpack para assets**: permite usar SCSS, ES6+ y optimización de bundles para producción, sin sacrificar la experiencia de desarrollo con live reload.
+
+---
+
+## ⚡ Quickstart (desarrollo local)
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/camiloquintero771/web-site-gaviriafajardo.git
+cd web-site-gaviriafajardo
+
+# 2. Configurar variables de entorno
+cp .env.example .env   # editar con tus valores
+
+# 3. Levantar los contenedores
 docker-compose up
 ```
 
-> If it's first time, the images will be created. Sometimes the project doesn't run at first time because the init of postgres, just run again `docker-compose up` and it will work.
+> En el primer arranque puede fallar la conexión con PostgreSQL mientras se inicializa.
+> Simplemente ejecuta `docker-compose up` de nuevo.
 
-*Your app will run in url `localhost:8000`*
+El sitio estará disponible en `http://localhost:8000`.
 
-To recreate the docker images after dependencies changes run:
+### Compilar assets con Webpack
 
-```
-docker-compose up --build
-```
+Después de levantar los contenedores, es necesario generar el bundle de assets:
 
-To remove the docker containers including the database (Useful sometimes when dealing with migrations):
-
-```
-docker-compose down
-```
-
-#### Assets development with webpack
-
-After the containers are running, the webpack bundle is required in order to render the statics, so just run:
-
-```
+```bash
+# Generar bundle una vez
 make webpack-dev
-```
 
-The previous command will generate the bundle for webpack once. 
-However, if you want to take advantage of the live reload functionality you should use the next command instead:
-
-```
+# O con live reload (recomendado durante desarrollo)
 make webpack-dev-server
 ```
 
-> *NOTE:* You must run one of the previous commands at least once, otherwise the following error would be displayed:
-> OSError at / Error reading /src/webpack-development-stats.json. Are you sure webpack has generated the file and the path is correct?
+## 🔐 Variables de entorno
 
-### Accessing Administration
-
-The django admin site of the project can be accessed at `localhost:8000/admin`
-
-By default, the development configuration creates a superuser with the following credentials:
-
-```
-Username: admin
-Password: admin
+```bash
+cp .env.example .env
 ```
 
-## Production Deployment: ##
+Estructura del `.env.example`:
 
-The project is dokku ready, these are the steps to deploy it in your dokku server:
+```env
+# Django
+ENVIRONMENT=development
+DJANGO_SECRET_KEY=change-me-generate-a-real-key
+DEBUG=True
 
-#### Server Side: ####
+# PostgreSQL
+POSTGRES_DB=gaviriafajardo_db
+POSTGRES_USER=gaviriafajardo_user
+POSTGRES_PASSWORD=change-me-use-a-strong-password
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
 
-> These docs do not cover dokku setup, you should already have configured the initial dokku config including ssh keys
-
-Create the app and configure postgres:
-```
-dokku apps:create gaviriafajardo
-dokku postgres:create gaviriafajardo
-dokku postgres:link gaviriafajardo gaviriafajardo
-```
-
-> If you don't have dokku postgres installed, run this before:
-> `sudo dokku plugin:install https://github.com/dokku/dokku-postgres.git`
-
-Create the required environment variables:
-```
-dokku config:set gaviriafajardo ENVIRONMENT=production DJANGO_SECRET_KEY=....
+# Email (producción)
+EMAIL_PASSWORD=change-me
 ```
 
-Current required environment variables are:
+> 💡 Para generar un `DJANGO_SECRET_KEY` seguro:
+> ```bash
+> python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+> ```
 
-* ENVIRONMENT
-* DJANGO_SECRET_KEY
-* EMAIL_PASSWORD
+> ⚠️ **Importante:** asegúrate de que `.env` esté en tu `.gitignore`. Solo el `.env.example` con placeholders debe estar versionado.
 
-Use the same command to configure secret credentials for the app
+---
 
-#### Local Side: ####
+## 🛠️ Comandos disponibles
 
-Configure the dokku remote:
+| Comando | Descripción |
+|---------|-------------|
+| `docker-compose up` | Levanta los servicios (Django + PostgreSQL) |
+| `docker-compose up --build` | Reconstruye imágenes tras cambios en dependencias |
+| `docker-compose down` | Detiene y elimina contenedores (incluye DB) |
+| `make webpack-dev` | Genera el bundle de assets (una vez) |
+| `make webpack-dev-server` | Webpack con live reload para desarrollo |
 
-```
-git remote add production dokku@<my-dokku-server.com>:gaviriafajardo
-```
+---
 
-Push your changes and just wait for the magic to happens :D:
+## 🚀 Deploy (producción)
 
-```
-git push production master
-```
+El proyecto está configurado para despliegue en **Dokku** (compatible con Heroku). El flujo de deploy es:
 
-> *IMPORTANT:* After deploying configure the correct site domain on: https://myhost.com/admin/sites/
-> Otherwise some URLs would be blocked by the ALLOWED_HOSTS due to Wagtail requesting localhost
+1. Configurar la app y la base de datos en el servidor Dokku.
+2. Definir las variables de entorno de producción (`ENVIRONMENT=production`, `DJANGO_SECRET_KEY`, `EMAIL_PASSWORD`).
+3. Desplegar con `git push production master`.
 
-Optional: To add SSL to the app check:
-https://github.com/dokku/dokku-letsencrypt
+> La documentación detallada de deploy se mantiene internamente por seguridad del servidor.
 
-Optional: Additional nginx configuration (like client_max_body_size) should be placed server side in:
-```
-/home/dokku/<app>/nginx.conf.d/<app>.conf
-```
+---
 
-> Further dokku configuration can be found here: http://dokku.viewdocs.io/dokku/
+## 👤 Autor
 
-### Serving static and media files from the dokku server
-
-In case you want to serve the `static` and `media` files directly from the server, instead of AWS or a different storage,
-the following steps are required:
-
-In the server configure the dokku persistent storage:
-
-```
-dokku storage:mount gaviriafajardo /var/lib/dokku/data/storage/gaviriafajardo/media:/src/media
-dokku storage:mount gaviriafajardo /var/lib/dokku/data/storage/gaviriafajardo/static:/src/static
-dokku ps:restart gaviriafajardo
-```
-> See: https://github.com/dokku/dokku/blob/master/docs/advanced-usage/persistent-storage.md
-
-Then add the following config:
-```
-location /media/ {
-  alias /var/lib/dokku/data/storage/gaviriafajardo/media/;
-}
-location /static/ {
-  alias /var/lib/dokku/data/storage/gaviriafajardo/static/;
-}
-```
-
-To the following file (You may need to create it):
-```
-/home/dokku/gaviriafajardo/nginx.conf.d/gaviriafajardo.conf
-```
-
-Finally, restart Nginx:
-```
-service nginx restart
-```
-
-### Configuring CORS
-
-In production, you may want to configure Nginx to allow requests from a different domain, in that case add:
-
-```
-add_header "Access-Control-Allow-Origin" * always;
-add_header "Access-Control-Allow-Methods" "GET, POST, PUT, OPTIONS, HEAD, PATCH, DELETE" always;
-add_header "Access-Control-Allow-Headers" "Authorization, Origin, X-Requested-With, Content-Type, Accept" always;
-
-if ($request_method = OPTIONS) {
-  return 204;
-}
-```
-
-To the following file:
-```
-/home/dokku/gaviriafajardo/nginx.conf.d/gaviriafajardo.conf
-```
-
-Then restart Nginx:
-```
-service nginx restart
-```
+**Camilo Quintero** — Backend Developer · Fundador de [EnocDev](https://github.com/enocdev)
+[LinkedIn](https://www.linkedin.com/in/camlo2021) · [GitHub](https://github.com/camiloquintero771)
