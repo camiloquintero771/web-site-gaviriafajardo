@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  gaviriafajardo:
+    build: .
+    image: gaviriafajardo:latest
+    container_name: gaviriafajardo
+    environment:
+      ENVIRONMENT: development
+    depends_on:
+      - db
+    volumes:
+      - .:/src
+      - ./scripts:/scripts
+    # Dev user: admin pass: admin
+    command: ["/scripts/wait-for-it.sh", "db:5432", "--", "/scripts/command-dev.sh"]
+    ports:
+      - "8000:8000"
+      - "9000:9000" # Webpack dev-server port
+
+  db:
+    image: postgres:11
+    container_name: gaviriafajardo-postgres
+    ports:
+      - "5444:5432"
+    environment: 
+      POSTGRES_PASSWORD: postgres

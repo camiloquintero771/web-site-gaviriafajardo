@@ -1,0 +1,39 @@
+{% extends "layouts/default.html" %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load wagtailsettings_tags %}
+{% get_settings %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block cover %}
+{% with cover_images=page.get_cover_images %}
+  {% if cover_images %}
+    <general-cover
+      text="{{ title }}"
+      text-bold=""
+      :images='["{{ image }}"]' :show-button="false">
+    </general-cover>
+  {% endif %}
+{% endwith %}
+{% endblock cover %}
+
+{% block content %}
+<div class="detail-page container-fluid pt-0 pt-lg-5 px-0">
+  <div class="bg-white">
+    <text-section
+      :animation="false"
+      :show-button="false"
+      title-small=""
+      title-big="{{ title }}"
+      description="{{ description }}"
+      image=""
+    >
+    </text-section>
+  </div>
+  {% if cards %}
+    <detail-swiper title="{{ title }}" :cards="{{ cards }}"></detail-swiper>
+  {% endif %}
+  {% include 'main/contact_form.html' %}
+</div>
+{% endblock content %}

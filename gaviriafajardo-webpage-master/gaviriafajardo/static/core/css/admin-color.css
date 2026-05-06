@@ -1,0 +1,18 @@
+:root {
+    --color-primary: #D40000;
+    --color-primary-darker: #000000;
+    --color-primary-dark: #000000;
+    --color-primary-lighter: #FF0000;
+    --color-primary-light: #DA7670;
+    --color-input-focus: #FF0000;
+    --color-input-focus-border: #FF0000;
+    --color-primary-hue: 25;
+    --color-primary-saturation: 100%;
+    --color-primary-lightness: 25%;
+    --color-primary-darker-hue: 24;
+    --color-primary-darker-saturation: 100%;
+    --color-primary-darker-lightness: 20%;
+    --color-primary-dark-hue: 23;
+    --color-primary-dark-saturation: 100%;
+    --color-primary-dark-lightness: 15%;
+}

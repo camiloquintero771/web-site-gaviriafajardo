@@ -1,0 +1,92 @@
+{% load static %}
+{% load wagtailsettings_tags %}
+{% load social_networks_tags %}
+{% load payments_tags %}
+{% load menu_tags %}
+{% get_social_networks %}
+{% get_payment_methods %}
+{% get_menus %}
+{% get_settings %}
+
+
+<div class="footer container-fluid px-5 py-5">
+  <div class="container-xl">
+    <div class="row text-white">
+      <div class="col-12 col-md-5 col-lg-4 col-xl-3 d-flex d-md-block flex-column align-items-center text-center text-md-start">
+        <img class="size-logo" src="{{ settings.main.PageSettings.logo_white.url }}">
+        <div class="d-flex justify-content-center">
+          <div>
+            <h6 class="mt-4">Siguenos en redes</h6>
+            <div class="d-flex pt-3">
+              {% for social in social_networks %}
+                <a class="text-white" href="{{ social.url }}">
+                  <img class="size-icons me-1" src="{{ social.icon_white.url }}" alt="">
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-7 col-lg-8 col-xl-9 pt-5 pt-md-0">
+        <div class="text-start">{{ settings.main.PageSettings.footer_detail|safe }}</div>
+        <div class="container pt-5">
+          <div class="row">
+            <div class="col-6 d-flex justify-content-center">
+              <nav class="nav flex-column">
+                <h6 class="fw-bold my-3">Acerca de</h6>
+                {% for item in menus.BOTTOM %}
+                  <div class="d-flex align-items-center">
+                    <a class="me-2 text-decoration-none text-white my-2" href="{{ item.get_redirect_url }}">
+                      {{ item.title }}
+                      {% if item.icon %}
+                        <img class="footer__icons me-1" src="{{ item.icon.url }}">
+                      {% endif %}
+                    </a>
+                  </div>
+                {% endfor %}
+                <div class="d-flex justify-content-center mt-4 pt-3">
+                  {% for payment_method in payment_methods %}
+                    <a href="{{ payment_method.link }}" target="_blank">
+                      <img class="footer__payicons me-1" src="{{ payment_method.icon.url }}">
+                    </a>
+                  {% endfor %}
+                </div>
+              </nav>
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+               <nav class="nav flex-column">
+                  <h6 class="fw-bold mt-2">Ubicación</h6>
+                  <div class="d-flex">
+                    <i class="bi bi-geo-alt-fill me-1"></i>
+                    <span class="fw-bold">{{ settings.main.PageSettings.address|default:"-"|safe }}</span>
+                  </div>
+                 <h6 class="fw-bold mt-2">Contáctanos</h6>
+              <div class="d-flex">
+                <i class="bi bi-whatsapp me-1"></i>
+                <span class="fw-bold">{{ settings.main.PageSettings.phone_number|default:"-"|safe }}</span>
+              </div>
+              <h6 class="fw-bold mt-2">Correo Electrónico</h6>
+              <div class="d-flex">
+                <i class="bi bi-envelope-fill me-1"></i>
+                <span class="fw-bold">{{ settings.main.PageSettings.email|default:"-"|safe }}</span>
+              </div>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="d-flex flex-wrap justify-content-center text-white pt-3">© {% now 'Y' %} www.gaviriafajardo.com.co
+      <p class="fw-bold text-center text-md-start"> | Hecho con ❤ por EnocDev </p>
+    </span>
+  </div>
+{#  <script type="text/javascript">(function () {#}
+{#    var ldk = document.createElement('script');#}
+{#    ldk.type = 'text/javascript';#}
+{#    ldk.async = true;#}
+{#    ldk.src = 'https://s.cliengo.com/weboptimizer/626b389aa72e0a002a1eaa9c/626b389da72e0a002a1eaa9f.js?platform=view_installation_code';#}
+{#    var s = document.getElementsByTagName('script')[0];#}
+{#    s.parentNode.insertBefore(ldk, s);#}
+{#    })();#}
+{#  </script>#}
+</div>

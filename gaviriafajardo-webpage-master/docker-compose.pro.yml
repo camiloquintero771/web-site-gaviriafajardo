@@ -1,0 +1,45 @@
+version: '3.1'
+
+services:
+  gaviriafajardo:
+    build: .
+    image: gaviriafajardo:latest
+    container_name: gaviriafajardo
+    env_file: ./.env
+    depends_on:
+      - db
+    volumes:
+      - .:/src
+      - ./scripts:/scripts
+    # Dev user: admin pass: admin
+    command: ["/scripts/wait-for-it.sh", "db:5432", "--", "/scripts/command-pro.sh"]
+
+
+  db:
+    image: postgres:11
+    container_name: gaviriafajardo-postgres
+    env_file: ./.env
+
+  nginx:
+    image: nginx:1.17-alpine
+    volumes:
+      - ./static:/static
+      - ./media:/media
+      - ./nginx/site.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    depends_on:
+      - gaviriafajardo
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    ports:
+      - "80:80"
+      - "443:443"
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./nginx/certbot/conf:/etc/letsencrypt
+      - ./nginx/certbot/www:/var/www/certbot
+    depends_on:
+      - nginx
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

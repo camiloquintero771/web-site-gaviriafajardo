@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block body %}
+  {% block cover %}{% endblock %}
+  {% include "layouts/components/header.html" %}
+  {% block content %}{% endblock %}
+  {% include "layouts/components/footer.html" %}
+{% endblock %}

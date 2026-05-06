@@ -1,0 +1,10 @@
+{% load wagtailsettings_tags %}
+{% get_settings %}
+<div class="container-fluid">
+    <form-contact
+      title="Contáctanos"
+      description="{{ settings.main.PageSettings.contact_detail }}"
+      action="{% url 'job:contact-create' %}"
+      method="POST"
+    ></form-contact>
+  </div>

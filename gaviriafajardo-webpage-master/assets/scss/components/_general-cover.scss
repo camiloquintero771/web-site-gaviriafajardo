@@ -1,0 +1,62 @@
+.general-cover{
+  height: 100%;
+  box-shadow: -1px 2px 32px 8px rgba(128,128,128,0.71);
+
+  @media screen and (max-width: 992px){
+      height: 75%;
+    .general-cover{
+      &__img{
+        height:75vh;
+      }
+    }
+  }
+  @media screen and (max-width: 768px){
+      height: 50%;
+      .general-cover{
+        &__img{
+          height:50vh;
+        }
+      }
+  }
+
+
+  &__img{
+    height:100vh;
+    width: 100vw;
+    object-fit: cover;
+    object-position: center;
+  }
+}
+.cover-text{
+  position: absolute;
+  top:20vw;
+  z-index: 2;
+  .big-size{
+    font-size: 6vw;
+    line-height : 7vw;
+  }
+  .medium-size{
+    font-size: 4vw;
+    line-height : 7vw;
+  }
+
+  @media screen and (max-width: 576px) {
+    top: 35vw;
+  }
+  @media screen and (max-width: 354px) {
+    top: 45vw;
+  }
+}
+
+.cover-button{
+  position: absolute;
+  top: 45vw;
+  width: 100%;
+
+  @media screen and (max-width: 768px) {
+    top: 50vw;
+  }
+  @media screen and (max-width: 576px) {
+    top: 55vw;
+  }
+}

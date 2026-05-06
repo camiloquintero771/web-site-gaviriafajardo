@@ -1,0 +1,27 @@
+$primary: #C20E1A;
+$secondary: #707070;
+
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer / 4,
+  2: $spacer / 2,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 6,
+  7: $spacer * 12,
+);
+
+// scss-docs-start border-radius-variables
+$border-radius:               .45rem !default;
+$border-radius-sm:            .3rem !default;
+$border-radius-lg:            .5rem !default;
+$border-radius-pill:          50rem !default;
+
+
+$badge-font-size:                   1em;
+$badge-padding-y:                   .40em;
+$badge-padding-x:                   .75em;
+
+$enable-responsive-font-sizes:true;

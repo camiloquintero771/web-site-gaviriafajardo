@@ -1,0 +1,30 @@
+{% extends "layouts/default.html" %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load wagtailsettings_tags %}
+{% load wagtailroutablepage_tags %}
+{% get_settings %}
+
+{% block body_class %}template-searchresultspage{% endblock %}
+
+{% block cover %}
+{% with cover_images=page.get_cover_images %}
+  {% if cover_images %}
+    <general-cover
+      text=""
+      text-bold=""
+      :images='{{ cover_images }}' :show-button="false">
+    </general-cover>
+  {% endif %}
+{% endwith %}
+{% endblock cover %}
+
+{% block content %}
+  <div class="search-results tex-center py-6">
+    <div class="d-flex justify-content-center  py-5">
+      <span class="tex-center text-primary fw-bold display-3">Resultados de la busqueda: {{ search_by }}</span>
+
+    </div>
+    <table-vue :data="{{ all_matches }}"></table-vue>
+  </div>
+{% endblock content %}

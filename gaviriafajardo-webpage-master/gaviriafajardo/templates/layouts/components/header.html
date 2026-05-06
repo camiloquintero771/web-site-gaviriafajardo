@@ -1,0 +1,40 @@
+{% load static %}
+{% load social_networks_tags %}
+{% load menu_tags %}
+{% get_social_networks %}
+{% get_menus %}
+
+<div class="header-navbar">
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="header-navbar__container container-xl">
+      <a class="navbar-brand" href="/"><img class="size-logo" src="{{ settings.main.PageSettings.logo_white.url }}"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse d-lg-flex justify-content-lg-end align-items-lg-baseline" id="navbarSupportedContent">
+        <ul class="navbar-nav d-lg-flex align-items-lg-center mb-2 mb-lg-0">
+          {% for item in menus.TOP %}
+            <li class="nav-item mx-2">
+              <a class="nav-link active" aria-current="page" href="{{ item.get_redirect_url }}">{{ item.title }}</a>
+            </li>
+          {% endfor %}
+          <div class="header-navbar__search">
+            <form name="search" action="/buscar-coincidencias/" method="get">
+              <input type="text" class="input" name="search" onmouseout="document.search.txt.value = ''">
+              <i class="bi bi-search fs-5"></i>
+            </form>
+
+          </div>
+          <div class="d-flex">
+            {% for social in social_networks %}
+              <a class="text-white d-flex align-items-center mx-1" href="{{ social.url }}">
+                <img class="size-icons" src="{{ social.icon_white.url }}" alt="">
+              </a>
+            {% endfor %}
+          </div>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>

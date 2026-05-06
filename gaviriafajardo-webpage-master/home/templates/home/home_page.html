@@ -1,0 +1,105 @@
+{% extends "layouts/default.html" %}
+{% load wagtailcore_tags %}
+{% load static %}
+{% load wagtailsettings_tags %}
+{% load wagtailroutablepage_tags %}
+{% get_settings %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block cover %}
+{% with cover_images=page.get_cover_images %}
+  {% if cover_images %}
+    <general-cover
+      text=""
+      text-bold=""
+      :images='{{ cover_images }}' :show-button="false">
+    </general-cover>
+  {% endif %}
+{% endwith %}
+{% endblock cover %}
+
+{% block content %}
+<div class="home-page container-fluid text-center pt-5 pt-lg-6 pt-xxl-7 px-0">
+  {% with services=page.get_services %}
+    {% if services %}
+      <div class="container-xxl mt-5">
+        <blurred-carousel title="¿Conoces nuestros servicios?" :services="{{ services }}"></blurred-carousel>
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% with news=page.get_news %}
+    {% if news %}
+      <info-swiper title="Últimas Noticias" :list_news="{{ news }}"></info-swiper>
+    {% endif %}
+  {% endwith %}
+
+  {% with contact_center=page.get_contact_center %}
+    {% if contact_center %}
+      <div class="bg-gray">
+        <text-section
+          :animation="true"
+          :show-button="true"
+          title-small="Contact"
+          title-big="Center"
+          description="{{ contact_center.description }}"
+          image="{{ contact_center.image.url }}"
+          url="{% routablepageurl page 'service_detail' contact_center.slug %}"
+        >
+        </text-section>
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% include 'main/contact_form.html' %}
+
+  <div class="bg-white py-5 px-4  px-sm-5 px-md-6 text-center">
+    <h5 class="text-secondary fw-bold pt-3 pb-0 mb-0">Nuestros Clientes</h5>
+    <div class="line_title_long m-0 mx-auto"></div>
+
+    <div class="d-flex justify-content-center align-items-center flex-wrap py-5 ">
+      {% for client in page.get_clients %}
+        <div class="tooltip-client m-2 home-page__clients ">
+          <img class="image" src="{{ client.image.url }}">
+          <span class="tooltiptext">{{ client.name }}</span>
+        </div>
+      {% empty %}
+        <p>Muy pronto más información</p>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="home-page__team py-6 px-xxl-7">
+    <div class="home-page__team__bg"></div>
+    <h5 class="text-white fw-bold pb-0 mb-0">Haz parte de nuestro equipo</h5>
+    <div class="line_title_long bg-white m-0 mx-auto"></div>
+    <div class="row gx-lg-6 px-4 px-sm-5 px-lg-6 pt-5">
+      <div class="col-12 col-md-6 my-auto text-start py-4">
+        <form action="{% url 'job:job-create' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label for="fullname" class="form-label text-white fw-bold">Nombres y Apellidos</label>
+          {{ job.name_applicant}}
+
+          <label for="email" class="form-label text-white fw-bold mt-4">Correo Electrónico</label>
+          {{ job.email_applicant }}
+
+          <label for="phone" class="form-label text-white fw-bold mt-4">Celular</label>
+          {{ job.phone_number_applicant }}
+
+          <label for="phone" class="form-label text-white fw-bold mt-4">CV</label>
+          {{ job.file }}
+
+          <label for="phone" class="form-label text-white fw-bold mt-4">Asunto</label>
+          {{ job.subject_applicant }}
+
+          <div class="d-flex justify-content-center justify-content-sm-start mt-5 mt-sm-4">
+            <input type="submit" class="btn btn_secondary fw-bold px-5 px-sm-4"></input>
+          </div>
+        </form>
+      </div>
+      <div class="col-12 col-md-6 my-4 my-md-auto home-page__team__image">
+        <img src="{% static 'img/team.png'  %}">
+      </div>
+  </div>
+</div>
+</div>
+{% endblock content %}
